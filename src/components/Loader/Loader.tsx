@@ -1,6 +1,6 @@
 import { ThreeDots } from "react-loader-spinner";
 
-export default function Loader() {
+const Loader: React.FC = () => {
   return (
     <ThreeDots
       height="80"
@@ -12,4 +12,6 @@ export default function Loader() {
       wrapperClass=""
     />
   );
-}
+};
+
+export default Loader;

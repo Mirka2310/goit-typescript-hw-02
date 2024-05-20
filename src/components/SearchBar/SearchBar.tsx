@@ -2,21 +2,28 @@ import { useState } from "react";
 import css from "./SearchBar.module.css";
 import { IoSearch } from "react-icons/io5";
 
-function SearchBar({ onFormSubmit, onEmptyString }) {
-  const [text, setText] = useState("");
+interface SearchBarProps {
+  onFormSubmit: (query: string) => void;
+  onEmptyString: () => void;
+}
+const SearchBar: React.FC<SearchBarProps> = ({
+  onFormSubmit,
+  onEmptyString,
+}) => {
+  const [text, setText] = useState<string>("");
 
-  function changeText(e) {
+  function changeText(e: React.ChangeEvent<HTMLInputElement>) {
     setText(e.target.value);
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (text.trim() === "") {
       onEmptyString();
       return;
     } else {
       onFormSubmit(text);
-      e.target.reset();
+      setText("");
     }
   };
 
@@ -26,8 +33,8 @@ function SearchBar({ onFormSubmit, onEmptyString }) {
         <input
           type="text"
           autoComplete="off"
-          autoFocus
           placeholder="Search images and photos"
+          value={text}
           className={css.input}
           onChange={changeText}
         />
@@ -37,6 +44,6 @@ function SearchBar({ onFormSubmit, onEmptyString }) {
       </form>
     </header>
   );
-}
+};
 
 export default SearchBar;

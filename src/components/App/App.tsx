@@ -1,27 +1,27 @@
+import { useState, useEffect } from "react";
 import SearchBar from "../SearchBar/SearchBar";
 import { getPhotos } from "../../api";
-import { useState, useEffect } from "react";
+import { ModalPhoto, Photo } from "../../types";
 import css from "./App.module.css";
 import ImageGallery from "../ImageGallery/ImageGallery";
 import LoadMoreBtn from "../LoadMoreBtn/LoadMoreBtn";
 import toast, { Toaster } from "react-hot-toast";
-import ErrorMessage from "../ErrorMessage/ErrorMessage";
+import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
 import Loader from "../Loader/Loader";
 import LastPage from "../LastPage/LastPage";
 import ImageModal from "../ImageModal/ImageModal";
 
-
 function App() {
-  const [query, setQuery] = useState("");
-  const [photos, setPhotos] = useState([]);
-  const [page, setPage] = useState(1);
-  const [loader, setLoader] = useState(false);
-  const [error, setError] = useState(false);
-  const [totalPages, setTotalPages] = useState("");
-  const [modalIsOpen, setIsOpen] = useState(false);
-  const [modalInfo, setModalInfo] = useState({ url: "", alt: "" });
+  const [query, setQuery] = useState<string>("");
+  const [photos, setPhotos] = useState<Photo[]>([]);
+  const [page, setPage] = useState<number>(1);
+  const [loader, setLoader] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
+  const [totalPages, setTotalPages] = useState<number>(0);
+  const [modalIsOpen, setIsOpen] = useState<boolean>(false);
+  const [modalInfo, setModalInfo] = useState<ModalPhoto>({ url: "", alt: "" });
 
-  const onFormSubmit = (query) => {
+  const onFormSubmit = (query: string) => {
     setQuery(query);
     setPage(1);
     setPhotos([]);
@@ -29,7 +29,7 @@ function App() {
 
   useEffect(() => {
     if (!query) return;
-    const photosFromApi = async () => {
+    const photosFromApi = async (query: string, page: number) => {
       setLoader(true);
       try {
         const { results, total_pages } = await getPhotos(query, page);
@@ -64,7 +64,7 @@ function App() {
       position: "top-right",
     });
 
-  const onModalOpen = (imageUrl, imageAlt) => {
+  const onModalOpen = (imageUrl: string, imageAlt: string): void => {
     setModalInfo({ url: imageUrl, alt: imageAlt });
     setIsOpen(true);
   };

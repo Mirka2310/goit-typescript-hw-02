@@ -1,6 +1,18 @@
 import css from "./ImageCard.module.css";
 
-function ImageCard({ alt, url, urlBig, onModalOpen }) {
+interface ImageCardProps {
+  alt: string;
+  url: string;
+  urlBig: string;
+  onModalOpen: (urlBig: string, alt: string) => void;
+}
+
+const ImageCard: React.FC<ImageCardProps> = ({
+  alt,
+  url,
+  urlBig,
+  onModalOpen,
+}) => {
   return (
     <div>
       <img
@@ -11,6 +23,6 @@ function ImageCard({ alt, url, urlBig, onModalOpen }) {
       />
     </div>
   );
-}
+};
 
 export default ImageCard;
